@@ -96,8 +96,18 @@ void IAP_APP_CAN_ReStart(CanRxMsg temp_CAN_Msg)
 	
 	}
 	if(temp_CAN_Msg.StdId == PC2MCU_IAP)
-	{		
-		systeam_ReStart();	
+	{	
+		GetLockCode(&g_Lock_Code);						//��ȡоƬΨһID
+
+		if(	temp_CAN_Msg.Data[0]==0x01&&	
+			temp_CAN_Msg.Data[1]==(g_Lock_Code>>24&0xff)&& 
+			temp_CAN_Msg.Data[2]==(g_Lock_Code>>16&0xff)&&
+			temp_CAN_Msg.Data[3]==(g_Lock_Code>>8&0xff)&&	
+			temp_CAN_Msg.Data[4]==(g_Lock_Code&0xff) )
+		{	
+			systeam_ReStart();	
+		}			
+		
 	}
 }
 
