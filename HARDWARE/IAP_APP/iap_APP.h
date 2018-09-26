@@ -34,7 +34,7 @@ extern u32 g_Lock_Code;
 void IAP_APP_Init(void);	
 //该函数请放在CAN接收中断内
 void IAP_APP_CAN_ReStart(CanRxMsg temp_CAN_Msg);//APP程序CAN中断内,刷固件跳转程序
-void IAP_APP_Send_Device_ino(void);				//向上位机发送设备信息
+u8 IAP_Send_Device_ino(void);				//向上位机发送设备信息
 
 
 #endif

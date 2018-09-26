@@ -65,7 +65,7 @@ static u8 IAP_Can_Send_Msg(u8 ID,u8* msg,u8 len)
 2.RunMode
 	运行模式：01:BootLoader 
 			  02:APP*/
-void Send_response(u8 Can_ID,u8 Byte1,u8 Byte6,u8 Byte7,u8 Byte8)	//发送响应
+u8 Send_response(u8 Can_ID,u8 Byte1,u8 Byte6,u8 Byte7,u8 Byte8)	//发送响应
 {
 	u8 temp[8]={0};
 
@@ -80,7 +80,7 @@ void Send_response(u8 Can_ID,u8 Byte1,u8 Byte6,u8 Byte7,u8 Byte8)	//发送响应
 	temp[6] = Byte7;					//设备类型
 	temp[7] = Byte8;					//运行模式 01:BootLoader  02:APP
 
-	IAP_Can_Send_Msg(Can_ID,temp,8);
+	return IAP_Can_Send_Msg(Can_ID,temp,8);
 }
 
 //APP程序CAN中断内,刷固件跳转程序
@@ -91,7 +91,7 @@ void IAP_APP_CAN_ReStart(CanRxMsg temp_CAN_Msg)
 		if(temp_CAN_Msg.Data[0]==1&&temp_CAN_Msg.Data[1]==0&&temp_CAN_Msg.Data[2]==0&&temp_CAN_Msg.Data[3]==0&&
 		   temp_CAN_Msg.Data[4]==0&&temp_CAN_Msg.Data[5]==0&&temp_CAN_Msg.Data[6]==0&&temp_CAN_Msg.Data[7]==0)
 		{	
-			IAP_APP_Send_Device_ino();					//向上位机发送设备信息
+			IAP_Send_Device_ino();					//向上位机发送设备信息
 		}
 	
 	}
@@ -117,9 +117,9 @@ void IAP_APP_Init(void)
 }
 
 //向上位机发送设备信息
-void IAP_APP_Send_Device_ino(void)
+u8 IAP_Send_Device_ino(void)
 {
-	Send_response(MCU2PC_Rend_device_info,0x81,IAP_CAN_ID,IAP_DeviceType,2);
+	return Send_response(MCU2PC_Rend_device_info,0x81,IAP_CAN_ID,IAP_DeviceType,2);
 }
 
 
