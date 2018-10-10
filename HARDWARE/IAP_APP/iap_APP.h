@@ -1,6 +1,7 @@
 #ifndef __IAP_APP_H__
 #define __IAP_APP_H__
 #include "stm32f10x.h"
+#include "can.h"
 
 /*用户自定义设备CAN_ID和设备类型*/
 #define IAP_CAN_ID			15
